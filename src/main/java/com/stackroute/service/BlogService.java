@@ -1,6 +1,7 @@
 package com.stackroute.service;
 import com.stackroute.domain.Blog;
-
+import com.stackroute.exception.BlogAlreadyExistsException;
+import com.stackroute.exception.BlogNotFoundException;
 
 import java.util.List;
 
@@ -11,22 +12,23 @@ public interface BlogService {
      /**
       * AbstractMethod to save a blog
       */
-     Blog saveBlog(Blog blog) ;
+     Blog saveBlog(Blog blog) throws BlogAlreadyExistsException ;
      /**
       * AbstractMethod to get all blogs
       */
-     List<Blog> getAllBlogs() ;
+     List<Blog> getAllBlogs() throws Exception;
      /**
       * AbstractMethod to get blog by id
       */
-     Blog getBlogById(int id) ;
+     Blog getBlogById(int id)throws BlogNotFoundException ;
      /**
       * AbstractMethod to delete blog by id
       */
-     Blog deleteBlog(int id) ;
+     Blog deleteBlog(int id)throws BlogNotFoundException;
      /**
       * AbstractMethod to update a blog
+     * @throws BlogAlreadyExistsException 
       */
-     Blog updateBlog(Blog blog) ;
+     Blog updateBlog(Blog blog)throws BlogNotFoundException, BlogAlreadyExistsException ;
 }
 

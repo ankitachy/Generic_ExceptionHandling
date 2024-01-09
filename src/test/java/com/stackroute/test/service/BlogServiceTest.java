@@ -1,6 +1,8 @@
 package com.stackroute.test.service;
 
 import com.stackroute.domain.Blog;
+import com.stackroute.exception.BlogAlreadyExistsException;
+import com.stackroute.exception.BlogNotFoundException;
 import com.stackroute.repository.BlogRepository;
 import com.stackroute.service.BlogServiceImpl;
 import org.junit.jupiter.api.AfterEach;
@@ -50,7 +52,7 @@ class BlogServiceTest {
 
     @Test
     public void givenBlogToSaveThenShouldNotReturnSavedBlog() throws BlogAlreadyExistsException {
-        when(blogRepository.save(blog)).thenThrow(new BlogAlreadyExistsException());
+        when(blogRepository.save(blog)).thenThrow(new BlogAlreadyExistsException(null));
         Assertions.assertThrows(BlogAlreadyExistsException.class, () ->
                 blogService.saveBlog(blog));
         verify(blogRepository, times(1)).save(blog);
@@ -94,7 +96,7 @@ class BlogServiceTest {
     }
 
     @Test
-    public void givenBlogToUpdateThenShouldReturnUpdatedBlog() throws BlogNotFoundException {
+    public void givenBlogToUpdateThenShouldReturnUpdatedBlog() throws BlogNotFoundException, BlogAlreadyExistsException {
         when(blogRepository.existsById(blog.getBlogId())).thenReturn(true);
         when(blogRepository.save(blog)).thenReturn(blog);
         blog.setBlogContent("SampleBlogforTesting");

@@ -1,6 +1,8 @@
 package com.stackroute.test.controller;
 
 import com.stackroute.domain.Blog;
+import com.stackroute.exception.BlogAlreadyExistsException;
+import com.stackroute.exception.BlogNotFoundException;
 import com.stackroute.service.BlogService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class BlogControllerIntegrationTest {
     }
 
     @Test
-    void givenBlogToDeleteThenShouldReturnTheDeletedBlog() throws BlogNotFoundException {
+    void givenBlogToDeleteThenShouldReturnTheDeletedBlog() throws BlogNotFoundException, BlogAlreadyExistsException {
         assertNotNull(blogService.saveBlog(blog));
         Blog deletedBlog = blogService.deleteBlog(blog.getBlogId());
         assertNotNull(deletedBlog);
@@ -64,7 +66,7 @@ public class BlogControllerIntegrationTest {
     }
 
     @Test
-    void givenBlogToUpdateThenShouldReturnUpdatedBlog() throws BlogNotFoundException {
+    void givenBlogToUpdateThenShouldReturnUpdatedBlog() throws BlogNotFoundException, BlogAlreadyExistsException {
         Blog savedBlog = blogService.saveBlog(blog);
         savedBlog.setBlogContent("update content");
         Blog updatedBlog = blogService.updateBlog(savedBlog);
@@ -78,7 +80,7 @@ public class BlogControllerIntegrationTest {
     }
 
     @Test
-    void givenBlogIdThenShouldReturnRespectiveBlog() throws BlogNotFoundException {
+    void givenBlogIdThenShouldReturnRespectiveBlog() throws BlogNotFoundException, BlogAlreadyExistsException {
         assertNotNull(blogService.saveBlog(blog));
         Blog retrievedBlog = blogService.getBlogById(blog.getBlogId());
         assertNotNull(retrievedBlog);
